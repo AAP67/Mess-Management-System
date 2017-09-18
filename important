@@ -1,0 +1,48 @@
+import pandas 
+import numpy as np
+import Tkinter
+import tkMessageBox
+df = pandas.read_excel(open('C:\Users\Charizard\Desktop\New folder\mapping.xlsx','rb'), sheetname='Sheet1')
+df1=pandas.read_excel(open('C:\Users\Charizard\Desktop\New folder\custody_vpr.xlsx','rb'), sheetname='Sheet1')
+df2=pandas.read_excel(open('C:\Users\Charizard\Desktop\New folder\ole_output.xlsx','rb'), sheetname='Sheet1')
+df3=df1.merge(df, on='Custody', how='left')
+df4=df2.merge(df3, on='Wins Main', how='left')
+#df4.set_index(['Custody'], inplace=True)
+df5=df4.sort(['Custody'])
+sum=0
+counter=0
+df5['Amount_matching']=0
+for index, row in df5.iterrows():
+    tkMessageBox.showinfo("Title", "a Tk MessageBox")
+    a=0
+    counter=counter+1
+    amt=(row.Amount)
+    print(amt)
+    
+    if counter==1:
+        
+        sum=amt
+        prev_cust=row.Custody
+        tkMessageBox.showinfo("Title", prev_cust)
+    if counter>1 and prev_cust==row.Custody:
+        sum=sum+amt
+    if counter>1 and prev_cust<>row.Custody:
+        if sum==row.Reclaims_amount:
+            row.Amount_matching='True'
+            
+            #Amount matching comment and other comparisons and comments
+            a=a+1
+        else:
+            #unmatched
+            row.Amount_matching='False'
+            sum=0
+            a=a+1
+    if a<>0:
+        sum=sum+amt
+        prev_cust=row.Custody
+        
+    
+        
+   
+
+       
